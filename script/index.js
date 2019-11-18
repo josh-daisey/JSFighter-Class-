@@ -44,10 +44,12 @@ class Fighter {
         target.hp = target.hp - this.atk;
         console.log(target.hp)
         if (koCheck(target)) {
+            updateBars();
             hideControls();
         } else {
             endTurn();
             showControls();
+            updateBars();
         }
     }
 
@@ -86,6 +88,7 @@ function startup() {
     console.log("My name is " + Player1.name + " and my ATK is " + Player1.atk)
 
     showControls() //runs the showControls() function
+    updateBars() //runs the updateBards() function
 }
 
 
@@ -112,6 +115,8 @@ function endTurn(){
 }
 
 function updateBars(){
+    barsBox.innerHTML = '<div id ='+Player0.charaName + "HPbar"+' class="hpBar"><div  class="HPfill">'+Player0.hp+'</div></div>'
+    barsBox.innerHTML += '<div id ='+Player1.charaName + "HPbar"+' class="hpBar"><div  class="HPfill">'+Player1.hp+'</div></div>'
 
 }
 
