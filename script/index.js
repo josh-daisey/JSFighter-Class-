@@ -41,7 +41,13 @@ class Fighter {
 
     //this logs who attacked who
     attack(target) {
-        console.log(this.name + ' attacked ' + target.name);
+        target.hp = target.hp - this.atk;
+        console.log(target.hp)
+        if (koCheck(target)) {
+            hideControls();
+        } else {
+            showControls();
+        }
     }
 
     single(target) {
@@ -61,14 +67,10 @@ class Fighter {
 function koCheck(target) {
     if (target.hp <= 0) {
         return true;
-}
-    elif(target.hp > 0) {
-        return false;
-}
 
-//  Updates the controls for the corresponding person's turn
-function showControls() {
-    controlsBox.innerHTML = '<button onclick="' + ((playerTurn) ? 'Player1' : 'Player0') + '.single(' + ((!playerTurn) ? 'Player1' : 'Player0') + ')">Single Attack</button>'
+    }else if(target.hp > 0) {
+            return false;
+        }
 }
 
 function startup() {
