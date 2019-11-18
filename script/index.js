@@ -46,6 +46,7 @@ class Fighter {
         if (koCheck(target)) {
             hideControls();
         } else {
+            endTurn();
             showControls();
         }
     }
@@ -62,15 +63,6 @@ class Fighter {
     recover() {
         console.log('Recovered!');
     }
-}
-
-function koCheck(target) {
-    if (target.hp <= 0) {
-        return true;
-
-    }else if(target.hp > 0) {
-            return false;
-        }
 }
 
 function startup() {
@@ -96,6 +88,33 @@ function startup() {
     showControls() //runs the showControls() function
 }
 
+
+function koCheck(target) {
+    if (target.hp <= 0) {
+        return true;
+
+    }else if(target.hp > 0) {
+        return false;
+    }
+}
+
+
+//  Checks if player hp is 0 or less if it is ends the game,
+//  also flips the players turns
+function endTurn(){
+    if (koCheck(Player0)){
+        hideControls();
+    }
+    if (koCheck(Player1)){
+        hideControls();
+    }
+    playerTurn = !playerTurn;
+}
+
+function updateBars(){
+
+}
+
 function showControls() {
     //checks to see which players turn it is and show the apropriate controls
     if (playerTurn) {
@@ -107,10 +126,7 @@ function showControls() {
     }
 }
 
-/*
 
-MHW = 'delicious'
-
-MHWoutput > MHWinput
-
-*/
+function hideControls(){
+    controlsBox.remove();
+}
