@@ -16,12 +16,6 @@ let logging = true;
 let Player0;
 let Player1;
 
-//varible for finding % of players HP used for the HealthBar
-let player0PercentHP;
-let player1PercentHP;
-let player0PercentSP;
-let player1PercentSP;
-
 // declared variables for the boxes
 let gameBox;
 let headerBox;
@@ -54,6 +48,7 @@ class Fighter {
         } else {
             console.log(`${target.name} has ${target.hp} health left`)
         }
+        updateBars(target)
         endTurn();
     }
 
@@ -84,98 +79,53 @@ function startup() {
     outputBox = document.getElementById('outputBox');
 
 
-  //this shows the fighter images in the graphics box
-  graphicsBox.innerHTML = '<img id ="' + Player0.charaName + '" src="img/' + Player0.charaName + '_idle.png" alt="' + Player0.name + '" class="fighterIMG">'
-  graphicsBox.innerHTML += '<img id ="' + Player1.charaName + '" src="img/' + Player1.charaName + '_idle.png" alt="' + Player1.name + '" class="fighterIMG">'
+    //this shows the fighter images in the graphics box
+    graphicsBox.innerHTML = '<img id ="' + Player0.charaName + '" src="img/' + Player0.charaName + '_idle.png" alt="' + Player0.name + '" class="fighterIMG">'
+    graphicsBox.innerHTML += '<img id ="' + Player1.charaName + '" src="img/' + Player1.charaName + '_idle.png" alt="' + Player1.name + '" class="fighterIMG">'
 
 
     console.log("My name is " + Player0.name + " and my ATK is " + Player0.atk)
     console.log("My name is " + Player1.name + " and my ATK is " + Player1.atk)
 
-  showControls() //runs the showControls() function
-  updateBars() //runs the updateBars() function
+    showControls() //runs the showControls() function
+    updateBars(Player0, "hp") //runs the updateBars() for Player0
+    updateBars(Player1, "hp") //runs the updateBars() for Player1
 }
 
 //checks the target's HP is less than or equal to 0, Then retuns true or false.
 function koCheck(target, amount) {
-  target.hp = target.hp - amount;
-  if (target.hp <= 0) {
-    return true;
-  } else {
-    return false;
-  }
+    target.hp = target.hp - amount;
+    if (target.hp <= 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 function updateBars() {
-  //calculates the percent of HP
-  player0PercentHP = (Player0.hp / START_HP) * 100
-  player1PercentHP = (Player1.hp / START_HP) * 100
-  player0PercentHP = (Player0.sp / START_SP) * 100
-  player1PercentHP = (Player1.sp / START_SP) * 100
 
-  //Makes sure Player0's health is not greater than 100% or less than 0%
-  if (player0PercentHP <= 0) {
-    player0PercentHP = 0
-  } else if (player0PercentHP > 100) {
-    player0PercentHP = 100
-  } else {
-    player0PercentHP = player0PercentHP
-  }
-
-  //Makes sure Player1's health is not greater than 100% or less than 0%
-  if (player1PercentHP <= 0) {
-    player1PercentHP = 0
-  } else if (player1PercentHP > 100) {
-    player1PercentHP = 100
-  } else {
-    player1PercentHP = player1PercentHP
-  }
-
-  //Makes sure Player0's SP is not greater than 100% or less than 0%
-  if (player0PercentSP <= 0) {
-    player0PercentSP = 0
-  } else if (player0PercentSP > 100) {
-    player0PercentSP = 100
-  } else {
-    player0PercentSP = player0PercentSP
-  }
-
-  //Makes sure Player1's SP is not greater than 100% or less than 0%
-  if (player1PercentSP <= 0) {
-    player1PercentSP = 0
-  } else if (player1PercentSP > 100) {
-    player1PercentSP = 100
-  } else {
-    player1PercentSP = player1PercentSP
-  }
-  barsBox.innerHTML = ''
-  barsBox.innerHTML += 'P0<div class="hpBar"><div style="height:' + player0PercentHP + '%; width: 100%;" id="p0HPfill" class="HPfill"></div></div>'
-  barsBox.innerHTML += '<div class="spBar"><div style="height:' + player0PercentSP + '%; width: 100%;" id="p0SPfill" class="SPfill"></div></div>'
-  barsBox.innerHTML += 'P1<div class="hpBar"><div style="height:' + player1PercentHP + '%; width: 100%;" id="p1HPfill" class="HPfill"></div></div>'
-  barsBox.innerHTML += '<div class="spBar"><div style="height:' + player1PercentSP + '%; width: 100%;" id="p1SPfill" class="SPfill"></div></div>'
 }
 
 function hideContols() {
-  controlsBox.innerHTML = "";
+    controlsBox.innerHTML = "";
 }
 
 //  Checks if player hp is 0 or less if it is ends the game,
 //  also flips the players turns
-function endTurn(){
-    if (koCheck(Player0, 0) || koCheck(Player1, 0)){
+function endTurn() {
+    if (koCheck(Player0, 0) || koCheck(Player1, 0)) {
         hideControls();
-    }else{
+    } else {
         playerTurn = !playerTurn;
         showControls();
     }
 
 }
 
-// function updateBars(){
-//     barsBox.innerHTML = '<div id ='+Player0.charaName + "HPbar"+' class="hpBar"><div  class="HPfill">'+Player0.hp+'</div></div>'
-//     barsBox.innerHTML += '<div id ='+Player1.charaName + "HPbar"+' class="hpBar"><div  class="HPfill">'+Player1.hp+'</div></div>'
-//
-// }
+function updateBars(target, type){
+    percent = (target.hp / START_HP * 100)
+    barsBox.innerHTML += `<div id = "${target.charaName}HPbar" class="${type}Bar"><div style="width: ${percent}%" class="${type}fill">${target.hp}</div></div>`
+}
 
 function showControls() {
     //checks to see which players turn it is and show the apropriate controls
@@ -188,6 +138,6 @@ function showControls() {
     }
 }
 
-function hideControls(){
+function hideControls() {
     controlsBox.remove();
 }
