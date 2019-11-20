@@ -48,7 +48,7 @@ class Fighter {
         } else {
             console.log(`${target.name} has ${target.hp} health left`)
         }
-        updateBars(target)
+        updateBars(target, "HP")
         endTurn();
     }
 
@@ -80,7 +80,7 @@ function startup() {
 
 
     //this shows the fighter images in the graphics box
-    graphicsBox.innerHTML = '<img id ="' + Player0.charaName + '" src="img/' + Player0.charaName + '_idle.png" alt="' + Player0.name + '" class="fighterIMG">'
+    graphicsBox.innerHTML ='<img id ="' + Player0.charaName + '" src="img/' + Player0.charaName + '_idle.png" alt="' + Player0.name + '" class="fighterIMG">'
     graphicsBox.innerHTML += '<img id ="' + Player1.charaName + '" src="img/' + Player1.charaName + '_idle.png" alt="' + Player1.name + '" class="fighterIMG">'
 
 
@@ -88,8 +88,12 @@ function startup() {
     console.log("My name is " + Player1.name + " and my ATK is " + Player1.atk)
 
     showControls() //runs the showControls() function
-    updateBars(Player0, "hp") //runs the updateBars() for Player0
-    updateBars(Player1, "hp") //runs the updateBars() for Player1
+
+    barsBox.innerHTML = `<div id = "${Player0.charaName}HPbar" class="hpBar"><div style="width: 100%" class="HPfill">${Player0.hp}</div></div>`
+    barsBox.innerHTML += `<div id = "${Player1.charaName}HPbar" class="hpBar"><div style="width: 100%" class="HPfill">${Player1.hp}</div></div>`
+
+    // updateBars(Player0, "hp") //runs the updateBars() for Player0
+    // updateBars(Player1, "hp") //runs the updateBars() for Player1
 }
 
 //checks the target's HP is less than or equal to 0, Then retuns true or false.
@@ -102,16 +106,12 @@ function koCheck(target, amount) {
     }
 }
 
-function updateBars() {
-
-}
-
 // EndTurn code
 function endTurn() {
-  playerTurn = !playerTurn
-  if (kocheck(Player0, 0) || kocheck(Player1, 0)){
-    hideControls();
-  }
+    playerTurn = !playerTurn
+    if (kocheck(Player0, 0) || kocheck(Player1, 0)) {
+        hideControls();
+    }
 }
 
 function hideContols() {
@@ -130,9 +130,9 @@ function endTurn() {
 
 }
 
-function updateBars(target, type){
-    percent = (target.hp / START_HP * 100)
-    barsBox.innerHTML += `<div id = "${target.charaName}HPbar" class="${type}Bar"><div style="width: ${percent}%" class="${type}fill">${target.hp}</div></div>`
+function updateBars(target, type) {
+    percent = (target.sp / START_SP * 100)
+    document.getElementById(target.id + type)
 }
 
 function showControls() {
