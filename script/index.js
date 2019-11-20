@@ -47,16 +47,14 @@ class Fighter {
 
     //this logs who attacked who
     attack(target) {
-        target.hp = target.hp - this.atk;
-        console.log(target.hp)
-        if (koCheck(target)) {
-            // updateBars();
-            hideControls();
+        let damage = this.atk;
+        console.log(`${damage} damage dealt to ${target.name}`)
+        if (koCheck(target, damage)) {
+            console.log(`${target.name} has died`)
         } else {
-            endTurn();
-            showControls();
-            // updateBars();
+            console.log(`${target.name} has ${target.hp} health left`)
         }
+        endTurn();
     }
 
     single(target) {
@@ -98,15 +96,6 @@ function startup() {
   updateBars() //runs the updateBars() function
 }
 
-
-function koCheck(target) {
-    if (target.hp <= 0) {
-        return true;
-
-    }else if(target.hp > 0) {
-        return false;
-    }
-}
 //checks the target's HP is less than or equal to 0, Then retuns true or false.
 function koCheck(target, amount) {
   target.hp = target.hp - amount;
@@ -116,7 +105,6 @@ function koCheck(target, amount) {
     return false;
   }
 }
-
 
 function updateBars() {
   //calculates the percent of HP
@@ -171,17 +159,16 @@ function hideContols() {
   controlsBox.innerHTML = "";
 }
 
-
 //  Checks if player hp is 0 or less if it is ends the game,
 //  also flips the players turns
 function endTurn(){
-    if (koCheck(Player0)){
+    if (koCheck(Player0, 0) || koCheck(Player1, 0)){
         hideControls();
+    }else{
+        playerTurn = !playerTurn;
+        showControls();
     }
-    if (koCheck(Player1)){
-        hideControls();
-    }
-    playerTurn = !playerTurn;
+
 }
 
 // function updateBars(){
@@ -200,7 +187,6 @@ function showControls() {
         controlsBox.innerHTML = '<button type="button" name="attack" onclick="Player0.single(Player1)">Single Attack!</button>'
     }
 }
-
 
 function hideControls(){
     controlsBox.remove();
