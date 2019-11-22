@@ -129,6 +129,10 @@ function endTurn() {
         playerTurn = !playerTurn;
         showControls();
     }
+    updateAllBars()
+}
+
+function updateAllBars(){
     updateBars(Player0, "hp", Player0.hp, START_HP)
     updateBars(Player1, "hp", Player1.hp, START_HP)
     updateBars(Player0, "sp", Player0.sp, START_SP)
