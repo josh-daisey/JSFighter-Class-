@@ -48,8 +48,8 @@ class Fighter {
         } else {
             console.log(`${target.name} has ${target.hp} health left`)
         }
-        updateBars(target, "HP")
         endTurn();
+
     }
 
     single(target) {
@@ -89,11 +89,13 @@ function startup() {
 
     showControls() //runs the showControls() function
 
-    barsBox.innerHTML = `<div id = "${Player0.charaName}HPbar" class="hpBar"><div style="width: 100%" class="HPfill">${Player0.hp}</div></div>`
-    barsBox.innerHTML += `<div id = "${Player1.charaName}HPbar" class="hpBar"><div style="width: 100%" class="HPfill">${Player1.hp}</div></div>`
+    //generates hp and sp bar for both players
+    barsBox.innerHTML = `<div id = "${Player0.charaName}hpBar" class="hpBar"><div style="width: 100%" class="hpFill">${Player0.hp}</div></div>`
+    barsBox.innerHTML += `<div id = "${Player0.charaName}spBar" class="spBar"><div style="width: 100%" class="spFill">${Player0.hp}</div></div>`
 
-    // updateBars(Player0, "hp") //runs the updateBars() for Player0
-    // updateBars(Player1, "hp") //runs the updateBars() for Player1
+    barsBox.innerHTML += `<div id = "${Player1.charaName}hpBar" class="hpBar"><div style="width: 100%" class="hpFill">${Player1.hp}</div></div>`
+    barsBox.innerHTML += `<div id = "${Player1.charaName}spBar" class="spBar"><div style="width: 100%" class="spFill">${Player1.hp}</div></div>`
+
 }
 
 //checks the target's HP is less than or equal to 0, Then retuns true or false.
@@ -127,12 +129,22 @@ function endTurn() {
         playerTurn = !playerTurn;
         showControls();
     }
-
+    updateBars(Player0, "hp", Player0.hp, START_HP)
+    updateBars(Player1, "hp", Player1.hp, START_HP)
+    updateBars(Player0, "sp", Player1.sp, START_SP)
+    updateBars(Player1, "sp", Player1.sp, START_SP)
 }
 
-function updateBars(target, type) {
-    percent = (target.sp / START_SP * 100)
-    document.getElementById(target.id + type)
+function updateBars(target, type, current, max) {
+    let percent = (current / max * 100)
+    if (current <= 0) {
+        barFillPercent = 0;
+    }
+    if (current >= max) {
+        barFillPercent = 100;
+    }
+    document.getElementById(`${target.charaName}${type}Bar`).innerHTML = `<div style="width: ${percent}%" class="${type}Fill">${current}</div>`
+
 }
 
 function showControls() {
