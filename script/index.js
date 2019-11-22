@@ -132,13 +132,6 @@ function endTurn() {
     updateAllBars()
 }
 
-function updateAllBars(){
-    updateBars(Player0, "hp", Player0.hp, START_HP)
-    updateBars(Player1, "hp", Player1.hp, START_HP)
-    updateBars(Player0, "sp", Player0.sp, START_SP)
-    updateBars(Player1, "sp", Player1.sp, START_SP)
-}
-
 function updateBars(target, type, current, max) {
     let percent = (current / max * 100)
     if (current <= 0) {
@@ -149,6 +142,13 @@ function updateBars(target, type, current, max) {
     }
     document.getElementById(`${target.charaName}${type}Bar`).innerHTML = `<div style="width: ${percent}%" class="${type}Fill">${current}</div>`
 
+}
+
+function updateAllBars(){
+    updateBars(Player0, "hp", Player0.hp, START_HP)
+    updateBars(Player1, "hp", Player1.hp, START_HP)
+    updateBars(Player0, "sp", Player0.sp, START_SP)
+    updateBars(Player1, "sp", Player1.sp, START_SP)
 }
 
 function showControls() {
